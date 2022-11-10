@@ -71,7 +71,11 @@ jobs:
 
             wget https://github.com/opencv/opencv/archive/${{ env.OPENCV_VERSION }}.zip > /dev/null
             unzip ${{ env.OPENCV_VERSION }} > /dev/null
-
+            
+            wget -O opencv_contrib-${{ env.OPENCV_VERSION }}.zip https://github.com/opencv/opencv_contrib/archive/${{ env.OPENCV_VERSION }}.zip > /dev/null
+            unzip opencv_contrib-${{ env.OPENCV_VERSION }}.zip > /dev/null
+            
+            base=${PWD}
             cd opencv-${{ env.OPENCV_VERSION }}
             mkdir build
             cd build
@@ -91,6 +95,7 @@ jobs:
               -D BUILD_opencv_apps=OFF \
               -D BUILD_opencv_gapi=OFF \
               -D CMAKE_BUILD_TYPE=RELEASE \
+              -D OPENCV_EXTRA_MODULES_PATH=${base}/opencv_contrib-${{ env.OPENCV_VERSION }}/modules ${base}/opencv-${{ env.OPENCV_VERSION }} \
               ..
             make -j4
 
@@ -177,7 +182,11 @@ jobs:
 
             wget https://github.com/opencv/opencv/archive/${{ env.OPENCV_VERSION }}.zip > /dev/null
             unzip ${{ env.OPENCV_VERSION }} > /dev/null
+            
+            wget -O opencv_contrib-${{ env.OPENCV_VERSION }}.zip https://github.com/opencv/opencv_contrib/archive/${{ env.OPENCV_VERSION }}.zip > /dev/null
+            unzip opencv_contrib-${{ env.OPENCV_VERSION }}.zip > /dev/null
 
+            base=${PWD}
             cd opencv-${{ env.OPENCV_VERSION }}
             mkdir build
             cd build
@@ -197,6 +206,7 @@ jobs:
               -D BUILD_opencv_apps=OFF \
               -D BUILD_opencv_gapi=OFF \
               -D CMAKE_BUILD_TYPE=RELEASE \
+              -D OPENCV_EXTRA_MODULES_PATH=${base}/opencv_contrib-${{ env.OPENCV_VERSION }}/modules ${base}/opencv-${{ env.OPENCV_VERSION }} \
               ..
             make -j4
 
@@ -259,6 +269,11 @@ jobs:
         run: |
           wget https://github.com/opencv/opencv/archive/${{ env.OPENCV_VERSION }}.zip > /dev/null
           unzip ${{ env.OPENCV_VERSION }} > /dev/null
+          
+          wget -O opencv_contrib-${{ env.OPENCV_VERSION }}.zip https://github.com/opencv/opencv_contrib/archive/${{ env.OPENCV_VERSION }}.zip > /dev/null
+          unzip opencv_contrib-${{ env.OPENCV_VERSION }}.zip > /dev/null
+          
+          base=${PWD}
           cd opencv-${{ env.OPENCV_VERSION }}
           mkdir build
           cd build
@@ -278,6 +293,7 @@ jobs:
             -D BUILD_opencv_apps=OFF \
             -D BUILD_opencv_gapi=OFF \
             -D CMAKE_BUILD_TYPE=RELEASE \
+            -D OPENCV_EXTRA_MODULES_PATH=${base}/opencv_contrib-${{ env.OPENCV_VERSION }}/modules ${base}/opencv-${{ env.OPENCV_VERSION }} \
             ..
           make -j8
 
@@ -331,6 +347,11 @@ jobs:
         run: |
           wget https://github.com/opencv/opencv/archive/${{ env.OPENCV_VERSION }}.zip > /dev/null
           unzip ${{ env.OPENCV_VERSION }} > /dev/null
+          
+          wget -O opencv_contrib-${{ env.OPENCV_VERSION }}.zip https://github.com/opencv/opencv_contrib/archive/${{ env.OPENCV_VERSION }}.zip > /dev/null
+          unzip opencv_contrib-${{ env.OPENCV_VERSION }}.zip > /dev/null
+          
+          base=${PWD}
           cd opencv-${{ env.OPENCV_VERSION }}
           mkdir build
           cd build
@@ -351,6 +372,7 @@ jobs:
             -D BUILD_opencv_gapi=OFF \
             -D CMAKE_BUILD_TYPE=RELEASE \
             -D CMAKE_APPLE_SILICON_PROCESSOR=arm64 \
+            -D OPENCV_EXTRA_MODULES_PATH=${base}/opencv_contrib-${{ env.OPENCV_VERSION }}/modules ${base}/opencv-${{ env.OPENCV_VERSION }} \
             ..
           make -j8
 
@@ -364,7 +386,7 @@ jobs:
 
       - name: Upload Libraries
         uses: actions/upload-artifact@v2
-        with: 
+        with:
           name: macos-aarch64
           path: |
             opencv-${{ env.OPENCV_VERSION }}/build/bin/opencv-${{ env.OPENCV_VERSION_SHORT }}.jar
@@ -373,14 +395,13 @@ jobs:
 
 
 
-  # Downloads the Windows distribution from OpenCV, extracts it and uploads
-  # the native libraries as artifacts for use by subsequent jobs. This is
-  # in leiu of building the native libraries on Windows.
+  # Build native libraries for Windows. Uploads the libraries
+  # as artifacts which are used in subsequent jobs.
   build_windows:
     strategy:
       matrix:
-        os: [ubuntu-18.04]
-        java: [15]
+        os: [ windows-2022 ]
+        java: [ 15 ]
 
     runs-on: ${{ matrix.os }}
 
@@ -399,16 +420,45 @@ jobs:
           echo "OPENCV_VERSION=$(mvn build-helper:parse-version org.apache.maven.plugins:maven-help-plugin:3.2.0:evaluate -Dexpression=opencv.version.long -q -DforceStdout)" >> $GITHUB_ENV
           echo "OPENCV_VERSION_SHORT=$(mvn build-helper:parse-version org.apache.maven.plugins:maven-help-plugin:3.2.0:evaluate -Dexpression=opencv.version.short -q -DforceStdout)" >> $GITHUB_ENV
 
-      - name: Download Windows Distribution
-        run: wget -O opencv-${{ env.OPENCV_VERSION }}-vc14_vc15.exe https://sourceforge.net/projects/opencvlibrary/files/${{ env.OPENCV_VERSION }}/opencv-${{ env.OPENCV_VERSION }}-vc14_vc15.exe/download
-
-      - name: Extract Windows Distribution
-        run: 7z x opencv-${{ env.OPENCV_VERSION }}-vc14_vc15.exe
+      - name: Build OpenCV
+        shell: bash
+        run: |
+          curl -o opencv.zip 
+          curl -o opencv.zip https://github.com/opencv/opencv/archive/${{ env.OPENCV_VERSION }}.zip > /dev/null
+          7z x opencv.zip > /dev/null
           
+          curl -o opencv_contrib.zip https://github.com/opencv/opencv_contrib/archive/${{ env.OPENCV_VERSION }}.zip > /dev/null
+          7z x opencv_contrib.zip > /dev/null
+          
+          base=${PWD}
+          cd opencv-${{ env.OPENCV_VERSION }}
+          mkdir build
+          cd build
+          cmake \
+            -D OPENCV_FORCE_3RDPARTY_BUILD=ON \
+            -D BUILD_JAVA=ON \
+            -D BUILD_FAT_JAVA_LIB=ON \
+            -D OPENCV_ENABLE_NONFREE=ON \
+            -D BUILD_SHARED_LIBS=OFF \
+            -D BUILD_PERF_TESTS=OFF \
+            -D BUILD_TESTS=OFF \
+            -D BUILD_EXAMPLES=OFF \
+            -D BUILD_DOCS=OFF \
+            -D BUILD_PACKAGE=OFF \
+            -D BUILD_opencv_python2=OFF \
+            -D BUILD_opencv_python3=OFF \
+            -D BUILD_opencv_apps=OFF \
+            -D BUILD_opencv_gapi=OFF \
+            -D CMAKE_BUILD_TYPE=RELEASE \
+            -D OPENCV_EXTRA_MODULES_PATH=${base}/opencv_contrib-${{ env.OPENCV_VERSION }}/modules ${base}/opencv-${{ env.OPENCV_VERSION }} \
+            ..
+          make -j8
+
+
       - name: Upload Libraries
         uses: actions/upload-artifact@v2
-        with: 
-          name: windows-2016
+        with:
+          name: windows-2022
           path: opencv/build/java
 
 
@@ -452,8 +502,8 @@ jobs:
           cp ubuntu-18.04/lib/libopencv_java${{ env.OPENCV_VERSION_SHORT }}.so src/main/resources/nu/pattern/opencv/linux/x86_64
           cp ubuntu-18.04-arm/lib/libopencv_java${{ env.OPENCV_VERSION_SHORT }}.so src/main/resources/nu/pattern/opencv/linux/ARMv7
           cp ubuntu-18.04-arm64/lib/libopencv_java${{ env.OPENCV_VERSION_SHORT }}.so src/main/resources/nu/pattern/opencv/linux/ARMv8
-          cp windows-2016/x86/opencv_java${{ env.OPENCV_VERSION_SHORT }}.dll src/main/resources/nu/pattern/opencv/windows/x86_32
-          cp windows-2016/x64/opencv_java${{ env.OPENCV_VERSION_SHORT }}.dll src/main/resources/nu/pattern/opencv/windows/x86_64
+          cp windows-2022/x86/opencv_java${{ env.OPENCV_VERSION_SHORT }}.dll src/main/resources/nu/pattern/opencv/windows/x86_32
+          cp windows-2022/x64/opencv_java${{ env.OPENCV_VERSION_SHORT }}.dll src/main/resources/nu/pattern/opencv/windows/x86_64
 
       - name: Build with Maven
         run: mvn -B install
