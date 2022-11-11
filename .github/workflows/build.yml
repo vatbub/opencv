@@ -424,10 +424,10 @@ jobs:
       - name: Build OpenCV
         shell: bash
         run: |
-          curl -o opencv.zip https://github.com/opencv/opencv/archive/${{ env.OPENCV_VERSION }}.zip > /dev/null
+          curl -L -o opencv.zip https://github.com/opencv/opencv/archive/${{ env.OPENCV_VERSION }}.zip > /dev/null
           7z x opencv.zip > /dev/null
           
-          curl -o opencv_contrib.zip https://github.com/opencv/opencv_contrib/archive/${{ env.OPENCV_VERSION }}.zip > /dev/null
+          curl -L -o opencv_contrib.zip https://github.com/opencv/opencv_contrib/archive/${{ env.OPENCV_VERSION }}.zip > /dev/null
           7z x opencv_contrib.zip > /dev/null
           
           base=${PWD}
