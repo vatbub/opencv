@@ -21,7 +21,7 @@ jobs:
   build_linux_arm: 
     strategy:
       matrix:
-        os: [ ubuntu-20.04 ]
+        os: [ ubuntu-22.04 ]
         java: [8]
 
     runs-on: ${{ matrix.os }}
@@ -45,7 +45,7 @@ jobs:
         uses: uraimo/run-on-arch-action@v2.0.9
         with:
           arch: armv7
-          distro: ubuntu20.04
+          distro: ubuntu22.04
           
           # Not required, but speeds up builds
           githubToken: ${{ github.token }}
@@ -121,7 +121,7 @@ jobs:
       - name: Upload Artifacts
         uses: actions/upload-artifact@v2
         with:
-          name: ubuntu-20.04-arm
+          name: ubuntu-22.04-arm
           path: |
             artifacts/bin/opencv-${{ env.OPENCV_VERSION_SHORT }}.jar
             artifacts/lib/libopencv_java${{ env.OPENCV_VERSION_SHORT }}.so
@@ -132,7 +132,7 @@ jobs:
   build_linux_arm64: 
     strategy:
       matrix:
-        os: [ ubuntu-20.04 ]
+        os: [ ubuntu-22.04 ]
         java: [ 8 ]
 
     runs-on: ${{ matrix.os }}
@@ -156,7 +156,7 @@ jobs:
         uses: uraimo/run-on-arch-action@v2.0.9
         with:
           arch: aarch64
-          distro: ubuntu20.04
+          distro: ubuntu22.04
           
           # Not required, but speeds up builds
           githubToken: ${{ github.token }}
@@ -232,7 +232,7 @@ jobs:
       - name: Upload Artifacts
         uses: actions/upload-artifact@v2
         with:
-          name: ubuntu-20.04-arm64
+          name: ubuntu-22.04-arm64
           path: |
             artifacts/bin/opencv-${{ env.OPENCV_VERSION_SHORT }}.jar
             artifacts/lib/libopencv_java${{ env.OPENCV_VERSION_SHORT }}.so
@@ -245,7 +245,7 @@ jobs:
   build_mac_linux_x64:
     strategy:
       matrix:
-        os: [ ubuntu-20.04, macos-10.15 ]
+        os: [ ubuntu-22.04, macos-10.15 ]
         java: [8]
 
     runs-on: ${{ matrix.os }}
@@ -415,6 +415,7 @@ jobs:
           java-version: ${{ matrix.java }}
 
       - name: Get Version Info
+        shell: bash
         run: |
           echo "POM_VERSION=$(mvn build-helper:parse-version org.apache.maven.plugins:maven-help-plugin:3.2.0:evaluate -Dexpression=project.version -q -DforceStdout)" >> $GITHUB_ENV
           echo "OPENCV_VERSION=$(mvn build-helper:parse-version org.apache.maven.plugins:maven-help-plugin:3.2.0:evaluate -Dexpression=opencv.version.long -q -DforceStdout)" >> $GITHUB_ENV
@@ -471,7 +472,7 @@ jobs:
 
     strategy:
       matrix:
-        os: [ ubuntu-20.04 ]
+        os: [ ubuntu-22.04 ]
         java: [8]
 
     runs-on: ${{ matrix.os }}
@@ -499,9 +500,9 @@ jobs:
           cp macos-10.15/bin/opencv-${{ env.OPENCV_VERSION_SHORT }}.jar upstream
           cp macos-10.15/lib/libopencv_java${{ env.OPENCV_VERSION_SHORT }}.dylib src/main/resources/nu/pattern/opencv/osx/x86_64
           cp macos-aarch64/lib/libopencv_java${{ env.OPENCV_VERSION_SHORT }}.dylib src/main/resources/nu/pattern/opencv/osx/ARMv8
-          cp ubuntu-20.04/lib/libopencv_java${{ env.OPENCV_VERSION_SHORT }}.so src/main/resources/nu/pattern/opencv/linux/x86_64
-          cp ubuntu-20.04-arm/lib/libopencv_java${{ env.OPENCV_VERSION_SHORT }}.so src/main/resources/nu/pattern/opencv/linux/ARMv7
-          cp ubuntu-20.04-arm64/lib/libopencv_java${{ env.OPENCV_VERSION_SHORT }}.so src/main/resources/nu/pattern/opencv/linux/ARMv8
+          cp ubuntu-22.04/lib/libopencv_java${{ env.OPENCV_VERSION_SHORT }}.so src/main/resources/nu/pattern/opencv/linux/x86_64
+          cp ubuntu-22.04-arm/lib/libopencv_java${{ env.OPENCV_VERSION_SHORT }}.so src/main/resources/nu/pattern/opencv/linux/ARMv7
+          cp ubuntu-22.04-arm64/lib/libopencv_java${{ env.OPENCV_VERSION_SHORT }}.so src/main/resources/nu/pattern/opencv/linux/ARMv8
           cp windows-2022/x86/opencv_java${{ env.OPENCV_VERSION_SHORT }}.dll src/main/resources/nu/pattern/opencv/windows/x86_32
           cp windows-2022/x64/opencv_java${{ env.OPENCV_VERSION_SHORT }}.dll src/main/resources/nu/pattern/opencv/windows/x86_64
 
@@ -525,7 +526,7 @@ jobs:
     needs: build_dist
     strategy:
       matrix:
-        os: [ macos-10.15, windows-2019, ubuntu-20.04, ubuntu-22.04 ]
+        os: [ macos-10.15, windows-2019, ubuntu-22.04, ubuntu-22.04 ]
         java: [8, 9, 10, 11, 12, 13, 14, 15]
 
     runs-on: ${{ matrix.os }}
@@ -565,7 +566,7 @@ jobs:
 
     strategy:
       matrix:
-        os: [ ubuntu-20.04 ]
+        os: [ ubuntu-22.04 ]
         java: [8]
 
     runs-on: ${{ matrix.os }}
@@ -598,9 +599,9 @@ jobs:
           cp macos-10.15/bin/opencv-${{ env.OPENCV_VERSION_SHORT }}.jar upstream
           cp macos-10.15/lib/libopencv_java${{ env.OPENCV_VERSION_SHORT }}.dylib src/main/resources/nu/pattern/opencv/osx/x86_64
           cp macos-aarch64/lib/libopencv_java${{ env.OPENCV_VERSION_SHORT }}.dylib src/main/resources/nu/pattern/opencv/osx/ARMv8
-          cp ubuntu-20.04/lib/libopencv_java${{ env.OPENCV_VERSION_SHORT }}.so src/main/resources/nu/pattern/opencv/linux/x86_64
-          cp ubuntu-20.04-arm/lib/libopencv_java${{ env.OPENCV_VERSION_SHORT }}.so src/main/resources/nu/pattern/opencv/linux/ARMv7
-          cp ubuntu-20.04-arm64/lib/libopencv_java${{ env.OPENCV_VERSION_SHORT }}.so src/main/resources/nu/pattern/opencv/linux/ARMv8
+          cp ubuntu-22.04/lib/libopencv_java${{ env.OPENCV_VERSION_SHORT }}.so src/main/resources/nu/pattern/opencv/linux/x86_64
+          cp ubuntu-22.04-arm/lib/libopencv_java${{ env.OPENCV_VERSION_SHORT }}.so src/main/resources/nu/pattern/opencv/linux/ARMv7
+          cp ubuntu-22.04-arm64/lib/libopencv_java${{ env.OPENCV_VERSION_SHORT }}.so src/main/resources/nu/pattern/opencv/linux/ARMv8
           cp windows-2022/x86/opencv_java${{ env.OPENCV_VERSION_SHORT }}.dll src/main/resources/nu/pattern/opencv/windows/x86_32
           cp windows-2022/x64/opencv_java${{ env.OPENCV_VERSION_SHORT }}.dll src/main/resources/nu/pattern/opencv/windows/x86_64
 
