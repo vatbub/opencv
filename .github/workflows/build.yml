@@ -69,10 +69,10 @@ jobs:
             # where it would be after starting a new shell.
             export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-armhf
 
-            wget https://github.com/opencv/opencv/archive/${{ env.OPENCV_VERSION }}.zip > /dev/null
+            wget --no-check-certificate https://github.com/opencv/opencv/archive/${{ env.OPENCV_VERSION }}.zip > /dev/null
             unzip ${{ env.OPENCV_VERSION }} > /dev/null
             
-            wget -O opencv_contrib-${{ env.OPENCV_VERSION }}.zip https://github.com/opencv/opencv_contrib/archive/${{ env.OPENCV_VERSION }}.zip > /dev/null
+            wget --no-check-certificate -O opencv_contrib-${{ env.OPENCV_VERSION }}.zip https://github.com/opencv/opencv_contrib/archive/${{ env.OPENCV_VERSION }}.zip > /dev/null
             unzip opencv_contrib-${{ env.OPENCV_VERSION }}.zip > /dev/null
             
             base=${PWD}
@@ -452,7 +452,7 @@ jobs:
             -D CMAKE_BUILD_TYPE=RELEASE \
             -D OPENCV_EXTRA_MODULES_PATH=${base}/opencv_contrib-${{ env.OPENCV_VERSION }}/modules ${base}/opencv-${{ env.OPENCV_VERSION }} \
             ..
-          cmake --build . --target all
+          cmake --build .
 
 
       - name: Upload Libraries
