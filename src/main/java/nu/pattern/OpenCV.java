@@ -352,13 +352,18 @@ public class OpenCV {
     return extractNativeBinary(os, arch, version);
   }
 
+  private static final String DEFAULT_VERSION = "460";
   private static String getVersion() {
     try {
       final Properties properties = new Properties();
       properties.load(OpenCV.class.getClassLoader().getResourceAsStream("project.properties"));
-      return properties.getProperty("version");
+      final String version = properties.getProperty("version");
+      logger.log(Level.FINEST, "Using version \"{0}\".", version);
+      return version;
     } catch (final Exception e) {
-      throw new RuntimeException(e);
+      logger.log(Level.WARNING, "Getting version failed", e);
+      logger.log(Level.FINEST, "Can not find version. Defaulting to {}.", DEFAULT_VERSION);
+      return DEFAULT_VERSION;
     }
   }
 
