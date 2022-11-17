@@ -1,5 +1,7 @@
 package nu.pattern;
 
+import org.opencv.core.Core;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -13,12 +15,11 @@ import java.nio.file.attribute.BasicFileAttributes;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Properties;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Pattern;
-
-import org.opencv.core.Core;
 
 public class OpenCV {
 
@@ -347,26 +348,37 @@ public class OpenCV {
   private static Path extractNativeBinary() {
     final OS os = OS.getCurrent();
     final Arch arch = Arch.getCurrent();
-    return extractNativeBinary(os, arch);
+    final String version = getVersion();
+    return extractNativeBinary(os, arch, version);
+  }
+
+  private static String getVersion() {
+    try {
+      final Properties properties = new Properties();
+      properties.load(OpenCV.class.getClassLoader().getResourceAsStream("project.properties"));
+      return properties.getProperty("version");
+    } catch (final Exception e) {
+      throw new RuntimeException(e);
+    }
   }
 
   /**
    * Extracts the packaged binary for the specified platform to a temporary location (which gets deleted when the JVM shuts down), and returns a {@link Path} to that file.
    */
-  private static Path extractNativeBinary(final OS os, final Arch arch) {
+  private static Path extractNativeBinary(final OS os, final Arch arch, final String version) {
     final String location;
 
     switch (os) {
-      case LINUX:
-        switch (arch) {
-          case X86_64:
-            location = "/nu/pattern/opencv/linux/x86_64/libopencv_java455.so";
-            break;
-          case ARMv7:
-            location = "/nu/pattern/opencv/linux/ARMv7/libopencv_java455.so";
+    case LINUX:
+      switch (arch) {
+      case X86_64:
+        location = "/nu/pattern/opencv/linux/x86_64/libopencv_java" + version + ".so";
+        break;
+      case ARMv7:
+        location = "/nu/pattern/opencv/linux/ARMv7/libopencv_java" + version + ".so";
             break;
           case ARMv8:
-            location = "/nu/pattern/opencv/linux/ARMv8/libopencv_java455.so";
+            location = "/nu/pattern/opencv/linux/ARMv8/libopencv_java" + version + ".so";
             break;
           default:
             throw new UnsupportedPlatformException(os, arch);
@@ -375,10 +387,10 @@ public class OpenCV {
       case OSX:
         switch (arch) {
           case X86_64:
-            location = "/nu/pattern/opencv/osx/x86_64/libopencv_java455.dylib";
+            location = "/nu/pattern/opencv/osx/x86_64/libopencv_java" + version + ".dylib";
             break;
           case ARMv8:
-            location = "/nu/pattern/opencv/osx/ARMv8/libopencv_java455.dylib";
+            location = "/nu/pattern/opencv/osx/ARMv8/libopencv_java" + version + ".dylib";
             break;
           default:
             throw new UnsupportedPlatformException(os, arch);
@@ -387,10 +399,10 @@ public class OpenCV {
       case WINDOWS:
           switch (arch) {
             case X86_32:
-              location = "/nu/pattern/opencv/windows/x86_32/opencv_java455.dll";
+              location = "/nu/pattern/opencv/windows/x86_32/opencv_java" + version + ".dll";
               break;
             case X86_64:
-              location = "/nu/pattern/opencv/windows/x86_64/opencv_java455.dll";
+              location = "/nu/pattern/opencv/windows/x86_64/opencv_java" + version + ".dll";
               break;
             default:
               throw new UnsupportedPlatformException(os, arch);
