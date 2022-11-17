@@ -453,6 +453,8 @@ jobs:
             -D OPENCV_EXTRA_MODULES_PATH=${base}/opencv_contrib-${{ env.OPENCV_VERSION }}/modules ${base}/opencv-${{ env.OPENCV_VERSION }} \
             ..
           cmake --build .
+          
+          ls -lahR
 
       - name: Copy Libraries
         run: |

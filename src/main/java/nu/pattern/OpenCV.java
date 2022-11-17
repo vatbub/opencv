@@ -361,8 +361,8 @@ public class OpenCV {
       logger.log(Level.FINEST, "Using version \"{0}\".", version);
       return version;
     } catch (final Exception e) {
-      logger.log(Level.WARNING, "Getting version failed", e);
-      logger.log(Level.FINEST, "Can not find version. Defaulting to {}.", DEFAULT_VERSION);
+      logger.log(Level.WARNING, "Getting version failed.", e);
+      logger.log(Level.FINEST, "Can not find version. Defaulting to \"{0}\".", DEFAULT_VERSION);
       return DEFAULT_VERSION;
     }
   }
