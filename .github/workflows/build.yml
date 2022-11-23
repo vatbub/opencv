@@ -424,6 +424,7 @@ jobs:
       - name: Build OpenCV
         shell: bash
         run: |
+          choco install ant
           # Figure out where ANT is
           echo "Ant"
           which ant
@@ -444,8 +445,11 @@ jobs:
           echo ${PWD}
           ls -lah
           
-          echo "F it"
-          ls -lahR /c/
+          echo "Chocolate"
+          ls -lah /c/ProgramData/Chocolatey/
+          echo "ProgramData"
+          ls -lah /c/ProgramData
+          
 #          pip install numpy
 #
 #          curl -L -o opencv.zip https://github.com/opencv/opencv/archive/${{ env.OPENCV_VERSION }}.zip > /dev/null
