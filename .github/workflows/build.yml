@@ -427,6 +427,10 @@ jobs:
           # Figure out where ANT is
           echo "Ant"
           which ant
+          antbin=$(which ant)
+          ls -lah ${antbin}/..
+          ls -lah ${antbin}/../..
+          ls -lah ${antbin}/../..
           echo "MAVEN_HOME"
           echo ${MAVEN_HOME}
           echo "JAVA_HOME"
