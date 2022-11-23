@@ -427,10 +427,6 @@ jobs:
           # Figure out where ANT is
           echo "Ant"
           which ant
-          antbin=$(which ant)
-          ls -lah ${antbin}/..
-          ls -lah ${antbin}/../..
-          ls -lah ${antbin}/../..
           echo "MAVEN_HOME"
           echo ${MAVEN_HOME}
           echo "JAVA_HOME"
@@ -447,6 +443,9 @@ jobs:
           cd ..
           echo ${PWD}
           ls -lah
+          
+          echo "F it"
+          ls -lahR /c/
 #          pip install numpy
 #
 #          curl -L -o opencv.zip https://github.com/opencv/opencv/archive/${{ env.OPENCV_VERSION }}.zip > /dev/null
