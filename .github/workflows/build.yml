@@ -428,10 +428,10 @@ jobs:
           pip install numpy
                
           curl -L -o opencv.zip https://github.com/opencv/opencv/archive/${{ env.OPENCV_VERSION }}.zip > /dev/null
-          7z x opencv.zip > /dev/null
+          unzip opencv.zip > /dev/null
           
           curl -L -o opencv_contrib.zip https://github.com/opencv/opencv_contrib/archive/${{ env.OPENCV_VERSION }}.zip > /dev/null
-          7z x opencv_contrib.zip > /dev/null
+          unzip opencv_contrib.zip > /dev/null
           
           base=${PWD}
           cd opencv-${{ env.OPENCV_VERSION }}
@@ -454,7 +454,7 @@ jobs:
             -D BUILD_opencv_apps=OFF \
             -D BUILD_opencv_gapi=OFF \
             -D CMAKE_BUILD_TYPE=RELEASE \
-            -D OPENCV_EXTRA_MODULES_PATH=${base}/opencv_contrib-${{ env.OPENCV_VERSION }}/modules ${base}/opencv-${{ env.OPENCV_VERSION }} \
+            -D OPENCV_EXTRA_MODULES_PATH=${base}/opencv_contrib-${{ env.OPENCV_VERSION }}/modules \
             ..
             mingw32-make -j8
           
