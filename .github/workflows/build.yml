@@ -438,7 +438,7 @@ jobs:
           mkdir build
           cd build
           cmake \
-            -G "MinGW Makefiles"
+            -G "MinGW Makefiles" \
             -D OPENCV_FORCE_3RDPARTY_BUILD=ON \
             -D BUILD_JAVA=ON \
             -D BUILD_FAT_JAVA_LIB=ON \
