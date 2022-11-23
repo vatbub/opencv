@@ -432,7 +432,7 @@ jobs:
           echo "JAVA_HOME"
           echo ${JAVA_HOME}
           echo "Start moving..."
-          cd ${MAVEN_HOME}
+          cd ${JAVA_HOME}
           echo ${PWD}
           cd ..
           echo ${PWD}
