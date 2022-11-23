@@ -471,8 +471,8 @@ jobs:
       - name: Copy Libraries
         shell: bash
         run: |
-          cp opencv-${{ env.OPENCV_VERSION }}/build/bin/opencv-${{ env.OPENCV_VERSION_SHORT }}.jar upstream || :
-          cp opencv-${{ env.OPENCV_VERSION }}/build/bin/libopencv_java${{ env.OPENCV_VERSION_SHORT }}.dll src/main/resources/nu/pattern/opencv/windows/x86_64 || :
+          cp opencv-${{ env.OPENCV_VERSION }}/build/bin/opencv-${{ env.OPENCV_VERSION_SHORT }}.jar upstream/
+          cp opencv-${{ env.OPENCV_VERSION }}/build/bin/libopencv_java${{ env.OPENCV_VERSION_SHORT }}.dll src/main/resources/nu/pattern/opencv/windows/x86_64/
 
       - name: Build with Maven
         shell: bash
