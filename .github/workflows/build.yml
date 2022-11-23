@@ -432,6 +432,7 @@ jobs:
           echo ${MAVEN_HOME}
           echo "JAVA_HOME"
           echo ${JAVA_HOME}
+          ant_path=$(which ant)
           
           pip install numpy
 
@@ -447,6 +448,7 @@ jobs:
           cd build
           cmake \
             -G "MinGW Makefiles" \
+            -D ANT_EXECUTABLE:FILEPATH=${ant_path} \
             -D OPENCV_FORCE_3RDPARTY_BUILD=ON \
             -D BUILD_JAVA=ON \
             -D BUILD_FAT_JAVA_LIB=ON \
