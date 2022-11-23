@@ -425,14 +425,23 @@ jobs:
         shell: bash
         run: |
           # Figure out where ANT is
+          echo "Ant"
           which ant
-          ls -lah ${MAVEN_HOME}
+          echo "MAVEN_HOME"
+          echo ${MAVEN_HOME}
+          echo "JAVA_HOME"
+          echo ${JAVA_HOME}
+          echo "Start moving..."
           cd ${MAVEN_HOME}
+          echo ${PWD}
           cd ..
+          echo ${PWD}
           ls -lah
           cd ..
+          echo ${PWD}
           ls -lah
           cd ..
+          echo ${PWD}
           ls -lah
 #          pip install numpy
 #
