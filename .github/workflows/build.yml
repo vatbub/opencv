@@ -424,32 +424,20 @@ jobs:
       - name: Build OpenCV
         shell: bash
         run: |
-          choco install ant
           # Figure out where ANT is
           echo "Ant"
           which ant
+          echo ${ANT_HOME}
           echo "MAVEN_HOME"
           echo ${MAVEN_HOME}
           echo "JAVA_HOME"
           echo ${JAVA_HOME}
-          echo "Start moving..."
-          cd ${JAVA_HOME}
-          echo ${PWD}
-          cd ..
-          echo ${PWD}
-          ls -lah
-          cd ..
-          echo ${PWD}
-          ls -lah
-          cd ..
-          echo ${PWD}
-          ls -lah
           
-          echo "Chocolate"
-          ls -lah /c/ProgramData/Chocolatey/
-          echo "ProgramData"
-          ls -lah /c/ProgramData
-          
+          choco install --force ant
+          echo "Recheck now"
+          which ant
+          echo ${ANT_HOME}
+
 #          pip install numpy
 #
 #          curl -L -o opencv.zip https://github.com/opencv/opencv/archive/${{ env.OPENCV_VERSION }}.zip > /dev/null
