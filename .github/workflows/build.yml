@@ -466,7 +466,7 @@ jobs:
             -D CMAKE_BUILD_TYPE=RELEASE \
             -D OPENCV_EXTRA_MODULES_PATH=${base}/opencv_contrib-${{ env.OPENCV_VERSION }}/modules \
             ..
-            mingw32-make -j8
+            mingw32-make -j2
 
       - name: Copy Libraries
         shell: bash
