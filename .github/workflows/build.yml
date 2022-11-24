@@ -13,12 +13,12 @@
 
 name: Build OpenPnP OpenCV Distribution
 
-on: 
+on:
   push:
   pull_request:
 
 jobs:
-#  build_linux_arm:
+  #  build_linux_arm:
   #    strategy:
   #      matrix:
   #        os: [ ubuntu-18.04 ]
@@ -534,7 +534,7 @@ jobs:
 
       - name: Upload Distribution
         uses: actions/upload-artifact@v2
-        with: 
+        with:
           name: dist
           path: target/opencv*
 
@@ -550,7 +550,7 @@ jobs:
     strategy:
       matrix:
         os: [ macos-10.15, windows-2019, ubuntu-20.04, ubuntu-20.04 ]
-        java: [8, 9, 10, 11, 12, 13, 14, 15]
+        java: [ 8, 9, 10, 11, 12, 13, 14, 15 ]
 
     runs-on: ${{ matrix.os }}
 
@@ -590,7 +590,7 @@ jobs:
     strategy:
       matrix:
         os: [ ubuntu-20.04 ]
-        java: [8]
+        java: [ 8 ]
 
     runs-on: ${{ matrix.os }}
 
@@ -619,14 +619,14 @@ jobs:
 
       - name: Copy Binaries
         run: |
-#          cp macos-10.15/bin/opencv-${{ env.OPENCV_VERSION_SHORT }}.jar upstream
-#          cp macos-10.15/lib/libopencv_java${{ env.OPENCV_VERSION_SHORT }}.dylib src/main/resources/nu/pattern/opencv/osx/x86_64
-#          cp macos-aarch64/lib/libopencv_java${{ env.OPENCV_VERSION_SHORT }}.dylib src/main/resources/nu/pattern/opencv/osx/ARMv8
-#          cp ubuntu-20.04/lib/libopencv_java${{ env.OPENCV_VERSION_SHORT }}.so src/main/resources/nu/pattern/opencv/linux/x86_64
-#          cp ubuntu-20.04-arm/lib/libopencv_java${{ env.OPENCV_VERSION_SHORT }}.so src/main/resources/nu/pattern/opencv/linux/ARMv7
-#          cp ubuntu-20.04-arm64/lib/libopencv_java${{ env.OPENCV_VERSION_SHORT }}.so src/main/resources/nu/pattern/opencv/linux/ARMv8
-#          cp windows-2022/x86/opencv_java${{ env.OPENCV_VERSION_SHORT }}.dll src/main/resources/nu/pattern/opencv/windows/x86_32
-          cp windows-2022/x64/libopencv_java${{ env.OPENCV_VERSION_SHORT }}.dll src/main/resources/nu/pattern/opencv/windows/x86_64
+          #          cp macos-10.15/bin/opencv-${{ env.OPENCV_VERSION_SHORT }}.jar upstream
+          #          cp macos-10.15/lib/libopencv_java${{ env.OPENCV_VERSION_SHORT }}.dylib src/main/resources/nu/pattern/opencv/osx/x86_64
+          #          cp macos-aarch64/lib/libopencv_java${{ env.OPENCV_VERSION_SHORT }}.dylib src/main/resources/nu/pattern/opencv/osx/ARMv8
+          #          cp ubuntu-20.04/lib/libopencv_java${{ env.OPENCV_VERSION_SHORT }}.so src/main/resources/nu/pattern/opencv/linux/x86_64
+          #          cp ubuntu-20.04-arm/lib/libopencv_java${{ env.OPENCV_VERSION_SHORT }}.so src/main/resources/nu/pattern/opencv/linux/ARMv7
+          #          cp ubuntu-20.04-arm64/lib/libopencv_java${{ env.OPENCV_VERSION_SHORT }}.so src/main/resources/nu/pattern/opencv/linux/ARMv8
+          #          cp windows-2022/x86/opencv_java${{ env.OPENCV_VERSION_SHORT }}.dll src/main/resources/nu/pattern/opencv/windows/x86_32
+               cp windows-2022/x64/libopencv_java${{ env.OPENCV_VERSION_SHORT }}.dll src/main/resources/nu/pattern/opencv/windows/x86_64
 
       - name: Publish to Apache Maven Central
         run: mvn -B -e clean deploy -P release-sign-artifacts
