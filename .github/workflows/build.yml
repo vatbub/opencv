@@ -528,8 +528,9 @@ jobs:
           #          cp ubuntu-20.04-arm/lib/libopencv_java${{ env.OPENCV_VERSION_SHORT }}.so src/main/resources/nu/pattern/opencv/linux/ARMv7
           #          cp ubuntu-20.04-arm64/lib/libopencv_java${{ env.OPENCV_VERSION_SHORT }}.so src/main/resources/nu/pattern/opencv/linux/ARMv8
           #          cp windows-2022/x86/libopencv_java${{ env.OPENCV_VERSION_SHORT }}.dll src/main/resources/nu/pattern/opencv/windows/x86_32
-               cp windows-2022/bin/opencv-${{ env.OPENCV_VERSION_SHORT }}.jar upstream
-               cp windows-2022/bin/libopencv_java${{ env.OPENCV_VERSION_SHORT }}.dll src/main/resources/nu/pattern/opencv/windows/x86_64
+          ls -lahR
+          cp windows-2022/bin/opencv-${{ env.OPENCV_VERSION_SHORT }}.jar upstream
+          cp windows-2022/bin/libopencv_java${{ env.OPENCV_VERSION_SHORT }}.dll src/main/resources/nu/pattern/opencv/windows/x86_64
 
       - name: Build with Maven
         run: mvn -B install
