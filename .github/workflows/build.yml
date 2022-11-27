@@ -492,7 +492,7 @@ jobs:
   # distribution jar. Uploads it as an artifact for subsequent steps.
   build_dist:
     #    needs: [build_mac_aarch64, build_linux_arm, build_linux_arm64, build_mac_linux_x64, build_windows]
-    needs: [ build_windows, build_mac_linux_x64 ]
+    needs: [ build_windows, build_mac_linux_x64, build_linux_arm, build_linux_arm64 ]
 
     strategy:
       matrix:
@@ -549,7 +549,7 @@ jobs:
     needs: build_dist
     strategy:
       matrix:
-        os: [ macos-10.15, windows-2019, ubuntu-20.04, ubuntu-20.04 ]
+        os: [ macos-10.15, windows-2019, ubuntu-20.04 ]
         java: [ 8, 9, 10, 11, 12, 13, 14, 15 ]
 
     runs-on: ${{ matrix.os }}
