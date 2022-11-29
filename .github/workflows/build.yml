@@ -444,7 +444,8 @@ jobs:
           cd build
           # Set some vars. See https://github.com/opencv/ci-gha-workflow/blob/main/.github/workflows/OCV-Contrib-PR-4.x-W10.yaml#L118
           # /c/Program\ Files\ \(x86\)/Microsoft\ Visual\ Studio/2019/Community/VC/Auxiliary/Build/vcvars64.bat
-          /c/Program\ Files/Microsoft\ Visual\ Studio/2022/Enterprise/VC/Auxiliary/Build/vcvars64.bat
+          # /c/Program\ Files/Microsoft\ Visual\ Studio/2022/Enterprise/VC/Auxiliary/Build/vcvars64.bat
+          /c/Program\ Files\ \(x86\)/Microsoft\ Visual\ Studio/2019/Enterprise/VC/Auxiliary/Build/vcvars64.bat
           cmake \
             -G Ninja \
             -D ANT_EXECUTABLE:FILEPATH=${ant_path} \
