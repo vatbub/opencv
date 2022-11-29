@@ -399,7 +399,7 @@ jobs:
   build_windows:
     strategy:
       matrix:
-        os: [ windows-2022 ]
+        os: [ windows-2019 ]
         java: [ 8 ]
 
     runs-on: ${{ matrix.os }}
@@ -474,8 +474,8 @@ jobs:
           cp opencv-${{ env.OPENCV_VERSION }}/build/bin/libopencv_java${{ env.OPENCV_VERSION_SHORT }}.dll src/main/resources/nu/pattern/opencv/windows/x86_64 || :
 
       # For some reason windows don't want to load the binaries correctly on github
-#      - name: Build with Maven
-#        run: mvn -B test
+      - name: Build with Maven
+        run: mvn -B test
 
       - name: Upload Libraries
         uses: actions/upload-artifact@v2
