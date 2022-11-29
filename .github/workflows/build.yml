@@ -447,7 +447,7 @@ jobs:
           # /c/Program\ Files/Microsoft\ Visual\ Studio/2022/Enterprise/VC/Auxiliary/Build/vcvars64.bat
           /c/Program\ Files\ \(x86\)/Microsoft\ Visual\ Studio/2019/Enterprise/VC/Auxiliary/Build/vcvars64.bat
           cmake \
-            -G "Visual Studio 16 2019" \
+            -G "MinGW Makefiles" \
             -D ANT_EXECUTABLE:FILEPATH=${ant_path} \
             -D OPENCV_FORCE_3RDPARTY_BUILD=ON \
             -D BUILD_JAVA=ON \
@@ -466,7 +466,7 @@ jobs:
             -D CMAKE_BUILD_TYPE=RELEASE \
             -D OPENCV_EXTRA_MODULES_PATH=${base}/opencv_contrib-${{ env.OPENCV_VERSION }}/modules \
             ..
-            cmake --build . --config debug --target install -- /maxcpucount:8
+            mingw32-make -j8
 
       - name: Copy Libraries
         shell: bash
