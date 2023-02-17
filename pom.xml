@@ -5,7 +5,7 @@
   <modelVersion>4.0.0</modelVersion>
 
   <packaging>bundle</packaging>
-  <groupId>org.openpnp</groupId>
+  <groupId>com.github.vatbub</groupId>
   <artifactId>opencv</artifactId>
   <version>4.5.5-2</version>
   <name>OpenPnP OpenCV</name>
@@ -112,8 +112,9 @@
 
 	<distributionManagement>
 	  <snapshotRepository>
-	    <id>ossrh</id>
-	    <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+        <id>github</id>
+        <name>GitHub Packages</name>
+        <url>https://maven.pkg.github.com/octocat/hello-world</url>
 	  </snapshotRepository>
 	</distributionManagement>
 
@@ -131,19 +132,7 @@
             </goals>
           </execution>
         </executions>
-      </plugin>    
-
-	    <plugin>
-	      <groupId>org.sonatype.plugins</groupId>
-	      <artifactId>nexus-staging-maven-plugin</artifactId>
-	      <version>1.6.7</version>
-	      <extensions>true</extensions>
-	      <configuration>
-	        <serverId>ossrh</serverId>
-	        <nexusUrl>https://oss.sonatype.org/</nexusUrl>
-	        <autoReleaseAfterClose>true</autoReleaseAfterClose>
-	      </configuration>
-	    </plugin>
+      </plugin>
 
       <plugin>
         <groupId>org.apache.felix</groupId>
