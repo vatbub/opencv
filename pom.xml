@@ -111,11 +111,11 @@
   </developers>
 
 	<distributionManagement>
-	  <snapshotRepository>
+	  <repository>
         <id>github</id>
         <name>GitHub Packages</name>
         <url>https://maven.pkg.github.com/octocat/hello-world</url>
-	  </snapshotRepository>
+	  </repository>
 	</distributionManagement>
 
   <build>
