@@ -264,6 +264,26 @@ jobs:
           echo "OPENCV_VERSION=$(mvn build-helper:parse-version org.apache.maven.plugins:maven-help-plugin:3.2.0:evaluate -Dexpression=opencv.version.long -q -DforceStdout)" >> $GITHUB_ENV
           echo "OPENCV_VERSION_SHORT=$(mvn build-helper:parse-version org.apache.maven.plugins:maven-help-plugin:3.2.0:evaluate -Dexpression=opencv.version.short -q -DforceStdout)" >> $GITHUB_ENV
 
+      - name: Install SFM dependencies
+        run: |
+          case "$OSTYPE" in
+            darwin*)  brew install brew install glog && brew install lapack && brew install eigen && brew install suite-sparse # sudo port install -Y google-glog;;
+            linux*)   sudo apt-get update && sudo apt-get install libgoogle-glog-dev libatlas-base-dev libeigen3-dev libsuitesparse-dev;;
+            *)        echo "unknown: $OSTYPE" ;;
+          esac
+
+      - name: Build Ceres
+        run: |
+          git clone https://ceres-solver.googlesource.com/ceres-solver
+          cd ceres-solver
+          mkdir build && cd build
+          cmake ..
+          make -j4
+          make test
+          sudo make install
+          cd ..
+          cd ..
+
       - name: Build OpenCV
         run: |
           wget https://github.com/opencv/opencv/archive/${{ env.OPENCV_VERSION }}.zip > /dev/null
