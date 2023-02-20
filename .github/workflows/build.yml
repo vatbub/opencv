@@ -265,12 +265,15 @@ jobs:
           echo "OPENCV_VERSION_SHORT=$(mvn build-helper:parse-version org.apache.maven.plugins:maven-help-plugin:3.2.0:evaluate -Dexpression=opencv.version.short -q -DforceStdout)" >> $GITHUB_ENV
 
       - name: Install SFM dependencies
+        shell: bash
         run: |
-          case "$OSTYPE" in
-            darwin*)  brew install brew install glog && brew install lapack && brew install eigen && brew install suite-sparse # sudo port install -Y google-glog;;
-            linux*)   sudo apt-get update && sudo apt-get install libgoogle-glog-dev libatlas-base-dev libeigen3-dev libsuitesparse-dev;;
-            *)        echo "unknown: $OSTYPE" ;;
-          esac
+          if [[ "$OSTYPE" == "darwin"* ]]; then
+            brew install brew install glog && brew install lapack && brew install eigen && brew install suite-sparse # sudo port install -Y google-glog
+          elif [[ "$OSTYPE" == "linux-gnu"* ]]; then
+            sudo apt-get update && sudo apt-get install libgoogle-glog-dev libatlas-base-dev libeigen3-dev libsuitesparse-dev
+          else
+            echo "unknown: $OSTYPE"
+          fi
 
       - name: Build Ceres
         run: |
