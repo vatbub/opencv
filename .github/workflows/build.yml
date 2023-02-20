@@ -268,7 +268,7 @@ jobs:
         shell: bash
         run: |
           if [[ "$OSTYPE" == "darwin"* ]]; then
-            brew install glog lapack eigen suite-sparse
+            brew install cmake glog lapack eigen suite-sparse
           elif [[ "$OSTYPE" == "linux-gnu"* ]]; then
             sudo apt-get update && sudo apt-get install libgoogle-glog-dev libatlas-base-dev libeigen3-dev libsuitesparse-dev
           else
