@@ -444,6 +444,15 @@ jobs:
           echo "OPENCV_VERSION=$(mvn build-helper:parse-version org.apache.maven.plugins:maven-help-plugin:3.2.0:evaluate -Dexpression=opencv.version.long -q -DforceStdout)" >> $GITHUB_ENV
           echo "OPENCV_VERSION_SHORT=$(mvn build-helper:parse-version org.apache.maven.plugins:maven-help-plugin:3.2.0:evaluate -Dexpression=opencv.version.short -q -DforceStdout)" >> $GITHUB_ENV
 
+      - name: Install SFM dependencies
+        shell: bash
+        run: |
+          vcpkg install glog
+          vcpkg install lapack
+          vcpkg install eigen3
+          vcpkg install suitesparse
+          vcpkg install ceres
+
       - name: Build OpenCV
         shell: bash
         run: |
