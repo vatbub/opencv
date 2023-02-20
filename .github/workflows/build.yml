@@ -264,22 +264,21 @@ jobs:
           echo "OPENCV_VERSION=$(mvn build-helper:parse-version org.apache.maven.plugins:maven-help-plugin:3.2.0:evaluate -Dexpression=opencv.version.long -q -DforceStdout)" >> $GITHUB_ENV
           echo "OPENCV_VERSION_SHORT=$(mvn build-helper:parse-version org.apache.maven.plugins:maven-help-plugin:3.2.0:evaluate -Dexpression=opencv.version.short -q -DforceStdout)" >> $GITHUB_ENV
 
-      - name: Install SFM dependencies
-        shell: bash
-        run: |
-          if [[ "$OSTYPE" == "darwin"* ]]; then
-            brew install cmake glog lapack eigen suite-sparse
-          elif [[ "$OSTYPE" == "linux-gnu"* ]]; then
-            sudo apt-get update && sudo apt-get install libgoogle-glog-dev libatlas-base-dev libeigen3-dev libsuitesparse-dev
-          else
-            echo "unknown: $OSTYPE"
-          fi
+      - name: Install SFM dependencies Mac
+        if: runner.os == 'macOS'
+        run: brew install glog lapack eigen suite-sparse ceres-solver
+
+      - name: Install SFM dependencies Ubuntu
+        if: runner.os == 'Linux'
+        run: sudo apt-get update && sudo apt-get install libgoogle-glog-dev libatlas-base-dev libeigen3-dev libsuitesparse-dev
 
       - name: Build Ceres
+        if: runner.os == 'Linux'
         run: |
           git clone https://ceres-solver.googlesource.com/ceres-solver
           cd ceres-solver
-          mkdir build && cd build
+          mkdir build
+          cd build
           cmake ..
           make -j4
           make test
